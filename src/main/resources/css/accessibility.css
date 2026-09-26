@@ -1,0 +1,50 @@
+/* Indicador de foco visível para navegação por teclado. */
+.text-field:focused,
+.password-field:focused,
+.text-area:focused,
+.combo-box:focused,
+.check-box:focused,
+.table-view:focused,
+.list-view:focused {
+    -fx-border-color: #398DA7;
+    -fx-border-width: 2;
+    -fx-border-radius: 7;
+}
+
+.accessibility-font-large .button,
+.accessibility-font-large .text-input,
+.accessibility-font-large .combo-box,
+.accessibility-font-large .check-box,
+.accessibility-font-large .table-view,
+.accessibility-font-large .list-view {
+    -fx-font-size: 16px;
+}
+
+.accessibility-font-large .pageSubtitle,
+.accessibility-font-large .mutedText,
+.accessibility-font-large .dashboard-subtitle,
+.accessibility-font-large .citizen-subtitle,
+.accessibility-font-large .form-page-subtitle,
+.accessibility-font-large .body-text,
+.accessibility-font-large .feature-text {
+    -fx-font-size: 16px;
+}
+
+.accessibility-font-extra-large .button,
+.accessibility-font-extra-large .text-input,
+.accessibility-font-extra-large .combo-box,
+.accessibility-font-extra-large .check-box,
+.accessibility-font-extra-large .table-view,
+.accessibility-font-extra-large .list-view {
+    -fx-font-size: 19px;
+}
+
+.accessibility-font-extra-large .pageSubtitle,
+.accessibility-font-extra-large .mutedText,
+.accessibility-font-extra-large .dashboard-subtitle,
+.accessibility-font-extra-large .citizen-subtitle,
+.accessibility-font-extra-large .form-page-subtitle,
+.accessibility-font-extra-large .body-text,
+.accessibility-font-extra-large .feature-text {
+    -fx-font-size: 19px;
+}

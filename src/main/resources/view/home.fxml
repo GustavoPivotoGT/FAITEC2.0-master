@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.DashboardController"
+            fitToWidth="true"
+            styleClass="dashboard-scroll"
+            stylesheets="@../css/home.css">
+    <StackPane styleClass="dashboard">
+      <VBox spacing="24" maxWidth="1200" styleClass="dashboard-content">
+          <padding>
+              <Insets top="28" right="30" bottom="30" left="30"/>
+          </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label fx:id="welcomeLabel" text="Visão geral" styleClass="dashboard-title"/>
+                <Label text="Acompanhe os principais indicadores das reclamações."
+                       styleClass="dashboard-subtitle"/>
+            </VBox>
+            <Button text="Ver reclamações urgentes"
+                    translateY="6"
+                    accessibleText="Abrir lista filtrada por reclamações urgentes"
+                    onAction="#showUrgentComplaints"
+                    styleClass="urgent-link-button"/>
+        </HBox>
+
+        <HBox spacing="14" alignment="CENTER">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="TOTAL" styleClass="metric-name"/>
+                <Label fx:id="totalLabel" text="0" styleClass="metric-value"/>
+            </VBox>
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="PENDENTES" styleClass="metric-name"/>
+                <Label fx:id="pendingLabel" text="0" styleClass="metric-value metric-pending"/>
+            </VBox>
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="EM ANDAMENTO" styleClass="metric-name"/>
+                <Label fx:id="inProgressLabel" text="0" styleClass="metric-value metric-progress"/>
+            </VBox>
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="RESOLVIDAS" styleClass="metric-name"/>
+                <Label fx:id="resolvedLabel" text="0" styleClass="metric-value metric-resolved"/>
+            </VBox>
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="URGENTES" styleClass="metric-name"/>
+                <Label fx:id="urgentLabel" text="0" styleClass="metric-value metric-urgent"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="14" styleClass="urgent-ranking-section">
+            <VBox spacing="3">
+                <Label text="Top 3 reclamações mais urgentes"
+                       styleClass="urgent-ranking-title"/>
+                <Label text="Problemas abertos ordenados por recorrência, prioridade e antiguidade."
+                       styleClass="urgent-ranking-subtitle"/>
+            </VBox>
+            <HBox fx:id="urgentRankingContainer"
+                  spacing="12"
+                  alignment="TOP_LEFT"/>
+        </VBox>
+
+        <GridPane hgap="18">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <VBox spacing="8"
+                  maxWidth="Infinity"
+                  styleClass="dashboard-card"
+                  GridPane.columnIndex="0">
+                <Label text="Reclamações por categoria" styleClass="card-title"/>
+                <PieChart fx:id="categoryChart"
+                          prefHeight="320"
+                          legendSide="BOTTOM"
+                          VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <VBox spacing="12"
+                  maxWidth="Infinity"
+                  styleClass="dashboard-card"
+                  GridPane.columnIndex="1">
+                <Label text="Reclamações por prioridade" styleClass="card-title"/>
+                <BarChart fx:id="priorityChart"
+                          prefHeight="320"
+                          accessibleText="Gráfico de reclamações por prioridade"
+                          VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis forceZeroInRange="true"
+                                    tickUnit="1"
+                                    minorTickVisible="false"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+        </GridPane>
+
+      </VBox>
+    </StackPane>
+</ScrollPane>

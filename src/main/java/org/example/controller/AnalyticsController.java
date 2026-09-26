@@ -1,0 +1,87 @@
+package org.example.controller;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.example.model.Complaint;
+import org.example.model.enums.ComplaintStatus;
+import org.example.service.ComplaintClusterService;
+import org.example.service.ComplaintAnalyticsService;
+import org.example.service.ComplaintAnalyticsService.AnalyticsSummary;
+import org.example.service.ComplaintService;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+
+public class AnalyticsController {
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    @FXML private Label resolutionRateLabel;
+    @FXML private Label averageAgeLabel;
+    @FXML private Label openQueueLabel;
+    @FXML private Label updatedAtLabel;
+    @FXML private ListView<String> insightsList;
+    @FXML private ListView<Complaint> criticalList;
+    private Map<Complaint, Integer> nearbyReportCounts = new IdentityHashMap<>();
+
+    @FXML
+    public void initialize() {
+        configureCriticalList();
+        loadAnalysis();
+    }
+
+    private void loadAnalysis() {
+        LocalDate today = LocalDate.now();
+        List<Complaint> complaints = ComplaintService.getAllComplaints();
+        List<Complaint> openComplaints = complaints.stream()
+            .filter(item -> item.getStatus() != ComplaintStatus.RESOLVIDO
+                && item.getStatus() != ComplaintStatus.CANCELADO)
+            .toList();
+        nearbyReportCounts = new IdentityHashMap<>();
+        for (var cluster : ComplaintClusterService.groupByProximity(openComplaints)) {
+            cluster.complaints().forEach(item -> nearbyReportCounts.put(item, cluster.count()));
+        }
+
+        AnalyticsSummary summary = ComplaintAnalyticsService.analyze(complaints, today);
+
+        resolutionRateLabel.setText(String.format("%.0f%%", summary.resolutionRate()));
+        averageAgeLabel.setText(String.format("%.1f dias", summary.averageOpenAge()));
+        openQueueLabel.setText(String.valueOf(summary.openCount()));
+        updatedAtLabel.setText("Atualizado em " + today.format(DATE_FORMAT));
+        insightsList.setItems(FXCollections.observableArrayList(summary.insights()));
+        criticalList.setItems(FXCollections.observableArrayList(summary.criticalComplaints()));
+    }
+
+    private void configureCriticalList() {
+        criticalList.setCellFactory(list -> new ListCell<>() {
+            @Override
+            protected void updateItem(Complaint item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                String address = item.getLocation() == null
+                    ? "Local não informado"
+                    : item.getLocation().getAddress();
+                int nearbyCount = nearbyReportCounts.getOrDefault(item, 1);
+                String groupCount = nearbyCount > 1
+                    ? nearbyCount + " registros abertos  •  "
+                    : "";
+                String issueName = item.getCategory().toString()
+                    + (item.getSubcategory() == null ? "" : " / " + item.getSubcategory());
+                setText(groupCount + item.getPriority() + "  •  " + issueName + "\n"
+                    + item.getStatus() + "  •  " + address);
+            }
+        });
+    }
+}

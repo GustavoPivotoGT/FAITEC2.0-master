@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="loginRoot"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.controller.LoginController"
+           styleClass="login-root"
+           stylesheets="@../css/login.css,@../css/accessibility.css,@../css/main.css">
+    <Region styleClass="background-overlay"/>
+
+    <HBox maxWidth="1120" maxHeight="680" styleClass="login-shell">
+        <VBox spacing="14" alignment="CENTER_LEFT"
+              styleClass="brand-panel" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="34" right="52" bottom="34" left="52"/>
+            </padding>
+
+            <StackPane styleClass="brand-image-card">
+                <ImageView fitWidth="300"
+                           preserveRatio="true"
+                           smooth="true">
+                    <image>
+                        <Image url="@../images/logo.png"/>
+                    </image>
+                    <viewport>
+                        <Rectangle2D minX="270" minY="245" width="990" height="480"/>
+                    </viewport>
+                </ImageView>
+            </StackPane>
+
+            <Pane prefHeight="6"/>
+
+            <Label text="Uma cidade melhor começa com participação."
+                   wrapText="true" styleClass="hero-title"/>
+
+            <Label text="Registre problemas urbanos, acompanhe atendimentos e visualize indicadores de forma simples e centralizada."
+                   wrapText="true" maxWidth="470" styleClass="hero-description"/>
+
+            <VBox spacing="15">
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="✓" styleClass="check-icon"/>
+                    <Label text="Reclamações organizadas por prioridade" styleClass="benefit-text"/>
+                </HBox>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="✓" styleClass="check-icon"/>
+                    <Label text="Acompanhamento pelo mapa da cidade" styleClass="benefit-text"/>
+                </HBox>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="✓" styleClass="check-icon"/>
+                    <Label text="Indicadores atualizados em tempo real" styleClass="benefit-text"/>
+                </HBox>
+            </VBox>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+            <Label text="Santa Rita do Sapucaí • Minas Gerais" styleClass="location-caption"/>
+        </VBox>
+
+        <VBox prefWidth="440" minWidth="440" spacing="20"
+              alignment="TOP_LEFT" styleClass="login-card">
+            <padding>
+                <Insets top="48" right="44" bottom="42" left="44"/>
+            </padding>
+
+            <VBox spacing="6">
+                <Label text="Bem-vindo!" styleClass="form-title"/>
+                <Label text="Entre com suas credenciais para continuar." styleClass="form-subtitle"/>
+            </VBox>
+
+            <VBox spacing="8">
+                <Label text="Usuário" styleClass="field-label"/>
+                <TextField fx:id="userField" promptText="Digite seu usuário"
+                           accessibleText="Campo de usuário" prefHeight="46"/>
+            </VBox>
+
+            <VBox spacing="8">
+                <Label text="Senha" styleClass="field-label"/>
+                <PasswordField fx:id="passwordField" promptText="Digite sua senha"
+                               accessibleText="Campo de senha" prefHeight="46"/>
+            </VBox>
+
+            <Button text="Entrar no sistema" onAction="#login"
+                    defaultButton="true" maxWidth="Infinity"
+                    prefHeight="47" styleClass="login-button"/>
+
+            <Label fx:id="messageLabel" wrapText="true"
+                   maxWidth="Infinity" styleClass="error-label"/>
+
+            <Separator/>
+
+            <VBox spacing="10" styleClass="demo-box">
+                <Label text="ACESSOS DE DEMONSTRAÇÃO" styleClass="demo-title"/>
+                <GridPane hgap="12" vgap="8">
+                    <Label text="Administrador" styleClass="profile-badge admin-badge"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="admin" styleClass="credential"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Atendente" styleClass="profile-badge attendant-badge"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <Label text="atendente" styleClass="credential"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Cidadão" styleClass="profile-badge citizen-badge"
+                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="cidadao" styleClass="credential"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Cidadão 2" styleClass="profile-badge citizen-badge"
+                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Label text="cidadao2" styleClass="credential"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                </GridPane>
+                <Label text="Senha para todos os perfis: 1234" styleClass="password-hint"/>
+            </VBox>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+            <Label text="Cidade em Dia • Versão 1.0"
+                   maxWidth="Infinity" alignment="CENTER" styleClass="form-footer"/>
+        </VBox>
+    </HBox>
+
+    <VBox fx:id="loginToastLayer"
+          spacing="10"
+          mouseTransparent="true"
+          pickOnBounds="false"
+          maxWidth="380"
+          StackPane.alignment="TOP_RIGHT">
+        <padding>
+            <Insets top="22" right="22" bottom="22" left="22"/>
+        </padding>
+    </VBox>
+</StackPane>

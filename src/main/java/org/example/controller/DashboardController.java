@@ -1,0 +1,111 @@
+package org.example.controller;
+
+import java.util.List;
+
+import org.example.model.Complaint;
+import org.example.model.User;
+import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintPriority;
+import org.example.model.enums.ComplaintStatus;
+import org.example.controller.complaint.ComplaintListController;
+import org.example.service.ComplaintService;
+import org.example.service.ComplaintUrgencyRankingService;
+import org.example.util.ScreenManager;
+import org.example.util.UrgentComplaintCardFactory;
+import org.example.util.UserSession;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+
+public class DashboardController {
+
+    @FXML private Label welcomeLabel;
+    @FXML private Label totalLabel;
+    @FXML private Label pendingLabel;
+    @FXML private Label inProgressLabel;
+    @FXML private Label resolvedLabel;
+    @FXML private Label urgentLabel;
+    @FXML private HBox urgentRankingContainer;
+    @FXML private PieChart categoryChart;
+    @FXML private BarChart<String, Number> priorityChart;
+
+    @FXML
+    public void initialize() {
+        configureWelcome();
+        loadDashboard();
+    }
+
+    private void configureWelcome() {
+        User user = UserSession.getLoggedUser();
+        welcomeLabel.setText(user == null ? "Visão geral" : "Olá, " + user.getName());
+    }
+
+    private void loadDashboard() {
+        List<Complaint> complaints = ComplaintService.getAllComplaints();
+
+        long pending = countStatus(complaints, ComplaintStatus.PENDENTE);
+        long inProgress = countStatus(complaints, ComplaintStatus.EM_ANALISE)
+            + countStatus(complaints, ComplaintStatus.EM_EXECUCAO);
+        long resolved = countStatus(complaints, ComplaintStatus.RESOLVIDO);
+        long urgent = complaints.stream()
+            .filter(item -> item.getPriority() == ComplaintPriority.URGENTE).count();
+
+        totalLabel.setText(String.valueOf(complaints.size()));
+        pendingLabel.setText(String.valueOf(pending));
+        inProgressLabel.setText(String.valueOf(inProgress));
+        resolvedLabel.setText(String.valueOf(resolved));
+        urgentLabel.setText(String.valueOf(urgent));
+
+        UrgentComplaintCardFactory.populate(urgentRankingContainer,
+            ComplaintUrgencyRankingService.topRecurring(complaints, 3));
+
+        loadCategoryChart(complaints);
+        loadPriorityChart(complaints);
+    }
+
+    private long countStatus(List<Complaint> complaints, ComplaintStatus status) {
+        return complaints.stream()
+            .filter(item -> item.getStatus() == status).count();
+    }
+
+    private void loadCategoryChart(List<Complaint> complaints) {
+        var data = FXCollections.<PieChart.Data>observableArrayList();
+        for (ComplaintCategory category : ComplaintCategory.values()) {
+            long count = complaints.stream()
+                .filter(item -> item.getCategory() == category).count();
+            if (count > 0) {
+                data.add(new PieChart.Data(category.toString(), count));
+            }
+        }
+        categoryChart.setData(data);
+        categoryChart.setLabelsVisible(true);
+    }
+
+    private void loadPriorityChart(List<Complaint> complaints) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Reclamações");
+
+        for (ComplaintPriority priority : ComplaintPriority.values()) {
+            long count = complaints.stream()
+                .filter(item -> item.getPriority() == priority).count();
+            series.getData().add(new XYChart.Data<>(priority.toString(), count));
+        }
+
+        priorityChart.getData().clear();
+        priorityChart.getData().add(series);
+        priorityChart.setLegendVisible(false);
+    }
+
+    @FXML
+    private void showUrgentComplaints() {
+        ComplaintListController controller = ScreenManager.loadScreen("ComplaintList.fxml");
+        if (controller != null) {
+            controller.filterByPriority(ComplaintPriority.URGENTE);
+        }
+    }
+}

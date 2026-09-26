@@ -1,0 +1,122 @@
+.dashboard-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.dashboard,
+.dashboard-content {
+    -fx-background-color: #F3F6FA;
+}
+
+.dashboard-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.dashboard-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.metric-card, .dashboard-card {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+}
+
+.metric-card {
+    -fx-spacing: 7;
+    -fx-min-width: 135;
+    -fx-padding: 17 18;
+}
+
+.dashboard-card {
+    -fx-padding: 20;
+}
+
+.metric-name {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.metric-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.metric-pending {
+    -fx-text-fill: #A16207;
+}
+
+.metric-progress {
+    -fx-text-fill: #0369A1;
+}
+
+.metric-resolved {
+    -fx-text-fill: #15803D;
+}
+
+.metric-urgent {
+    -fx-text-fill: #B91C1C;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.urgent-link-button {
+    -fx-background-color: #FEE2E2;
+    -fx-background-radius: 8;
+    -fx-border-color: #FECACA;
+    -fx-border-radius: 8;
+    -fx-padding: 7 11;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #B91C1C;
+    -fx-cursor: hand;
+    padding-top: 10px;
+}
+
+.urgent-link-button:hover {
+    -fx-background-color: #FECACA;
+}
+
+.chart {
+    -fx-padding: 5;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #E2E8F0;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.list-cell {
+    -fx-padding: 10 12;
+    -fx-background-color: white;
+    -fx-text-fill: #334155;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #F8FAFC;
+}

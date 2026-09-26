@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.controller.complaint.ComplaintListController"
+           stylesheets="@../css/complaint.css">
+
+    <VBox alignment="CENTER">
+
+        <VBox spacing="15"
+              maxWidth="1280"
+              styleClass="card">
+
+            <padding>
+                <Insets top="22" right="22" bottom="22" left="22"/>
+            </padding>
+
+            <Label text="Lista de Reclamações"
+                   fx:id="titleLabel"
+                   styleClass="title"/>
+
+            <Label text="Acompanhe o andamento das reclamações registradas."
+                   fx:id="subtitleLabel"
+                   styleClass="subtitle"/>
+
+            <VBox spacing="10">
+              <HBox spacing="12" alignment="CENTER_LEFT">
+
+                <TextField fx:id="searchField"
+                           promptText="Pesquisar reclamação..."
+                           HBox.hgrow="ALWAYS"/>
+
+                <ComboBox fx:id="categoryFilter"
+                          promptText="Categoria"
+                          prefWidth="165"/>
+
+                <ComboBox fx:id="subcategoryFilter"
+                          promptText="Subcategoria"
+                          accessibleText="Filtrar por subcategoria"
+                          prefWidth="190"/>
+
+                <ComboBox fx:id="statusFilter"
+                          promptText="Status"
+                          prefWidth="140"/>
+
+                <ComboBox fx:id="priorityFilter"
+                          promptText="Prioridade"
+                          prefWidth="130"/>
+
+              </HBox>
+
+              <HBox spacing="10" alignment="CENTER_LEFT">
+
+                <Label text="Período:" styleClass="filter-label"/>
+
+                <DatePicker fx:id="startDateFilter"
+                            promptText="Data inicial"
+                            accessibleText="Data inicial do período"
+                            prefWidth="145"/>
+
+                <Label text="até" styleClass="filter-label"/>
+
+                <DatePicker fx:id="endDateFilter"
+                            promptText="Data final"
+                            accessibleText="Data final do período"
+                            prefWidth="145"/>
+
+                <Label fx:id="dateRangeErrorLabel"
+                       text="A data inicial deve ser anterior à final."
+                       visible="false"
+                       managed="false"
+                       styleClass="filter-error"/>
+
+                <Pane HBox.hgrow="ALWAYS"/>
+
+                <Button text="Limpar"
+                        onAction="#clearFilters"/>
+
+                <Button fx:id="exportButton"
+                        text="Exportar CSV"
+                        onAction="#exportCsv"/>
+
+                <Button fx:id="detailsButton"
+                        text="Ver detalhes"
+                        disable="true"
+                        onAction="#showDetails"/>
+
+              </HBox>
+            </VBox>
+
+            <TableView fx:id="complaintsTable"
+                       VBox.vgrow="ALWAYS">
+
+                <columns>
+                    <TableColumn fx:id="categoryColumn"
+                                 text="Categoria"
+                                 prefWidth="125"/>
+
+                    <TableColumn fx:id="subcategoryColumn"
+                                 text="Subcategoria"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="priorityColumn"
+                                 text="Prioridade"
+                                 prefWidth="90"/>
+
+                    <TableColumn fx:id="locationColumn"
+                                 text="Local"
+                                 prefWidth="150"/>
+
+                    <TableColumn fx:id="descriptionColumn"
+                                 text="Descrição"
+                                 prefWidth="210"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="dateColumn"
+                                 text="Data"
+                                 prefWidth="105"/>
+
+                    <TableColumn fx:id="actionColumn"
+                                 text="Ações"
+                                 prefWidth="110"/>
+                </columns>
+
+            </TableView>
+
+        </VBox>
+
+    </VBox>
+
+</StackPane>

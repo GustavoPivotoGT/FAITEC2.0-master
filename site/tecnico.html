@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Quadro técnico visual do projeto Cidade em Dia." />
+    <meta name="theme-color" content="#071b2d" />
+    <title>Quadro técnico — Cidade em Dia</title>
+    <link rel="stylesheet" href="tech.css" />
+  </head>
+  <body>
+    <main class="canvas-viewport" id="canvas-viewport" aria-label="Quadro técnico do Cidade em Dia">
+      <div class="canvas-world" id="canvas-world">
+        <svg class="canvas-connectors" viewBox="0 0 1680 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M845 275 C880 275 880 275 910 275" />
+          <path d="M520 470 C520 500 520 495 520 525" />
+          <path d="M1100 470 C1100 500 1100 495 1100 525" />
+          <path d="M810 690 C840 720 840 730 840 755" />
+          <path d="M1330 690 C1330 725 1320 735 1290 755" />
+        </svg>
+
+        <header class="board-heading">
+          <a class="board-logo" href="index.html" title="Voltar à apresentação do projeto"><img src="../src/main/resources/images/logoSemNome.png" alt="" /></a>
+          <div class="board-title"><div class="board-kicker">FAITEC 2.0 <span>／</span> SYSTEM BOARD</div><h1>Cidade em Dia <em>· caderno técnico</em></h1></div>
+          <div class="heading-chips"><span>JAVA 21</span><span>JAVAFX 21</span><span>PROTÓTIPO DESKTOP</span></div>
+          <span class="board-hint"><i></i> arraste para mover · scroll para zoom</span>
+        </header>
+
+        <section class="board-card architecture-card" aria-labelledby="architecture-title">
+          <div class="card-heading"><span class="card-index">01</span><div><span class="card-kicker">ESTRUTURA DO SISTEMA</span><h2 id="architecture-title">Arquitetura em camadas</h2></div><span class="card-mark">MVC / JavaFX</span></div>
+          <div class="architecture-flow">
+            <article class="arch-node arch-entry"><span class="node-type">BOOTSTRAP</span><strong>MainApp</strong><small>JavaFX · abre Login.fxml</small></article><i class="node-arrow">→</i>
+            <article class="arch-node arch-ui"><span class="node-type">01 · APRESENTAÇÃO</span><strong>Views</strong><small>FXML + CSS<br />Login · Main · telas</small></article><i class="node-arrow">→</i>
+            <article class="arch-node arch-control"><span class="node-type">02 · COORDENAÇÃO</span><strong>Controllers</strong><small>Login · Main · Complaint<br />Dashboard · Map · Analytics</small></article><i class="node-arrow">→</i>
+            <article class="arch-node arch-service"><span class="node-type">03 · REGRAS</span><strong>Services</strong><small>Complaint · Analytics<br />MapFilter · Cluster · Ranking</small></article>
+          </div>
+          <div class="arch-lower"><div class="domain-inline"><span>04 · DOMÍNIO</span><strong>Complaint · User · Location · HistoryEntry · enums</strong></div><div class="memory-inline"><span>ESTADO</span><strong>Listas em memória</strong><small>mocks · sem banco · sem backend</small></div><div class="utility-inline"><span>UTILITÁRIOS</span><strong>ScreenManager · UserSession · MapBridge</strong></div></div>
+          <div class="card-footnote"><b>Persistência:</b> registros criados durante a execução se perdem ao encerrar a aplicação; anexos são caminhos locais.</div>
+        </section>
+
+        <section class="board-card workflow-card" aria-labelledby="workflow-title">
+          <div class="card-heading"><span class="card-index green-index">02</span><div><span class="card-kicker">FLUXO PRINCIPAL</span><h2 id="workflow-title">Do relato à resposta</h2></div></div>
+          <div class="workflow-list"><article><i>01</i><div><strong>Morador registra</strong><small>categoria · local · descrição · foto</small></div></article><article><i>02</i><div><strong>Formulário valida</strong><small>campos · localização · classificação</small></div></article><article><i>03</i><div><strong>ComplaintService adiciona</strong><small>modelo + primeiro evento no histórico</small></div></article><article><i>04</i><div><strong>Equipe analisa e atualiza</strong><small>prioriza · altera status · registra responsável</small></div></article><article><i>05</i><div><strong>Cidadão acompanha</strong><small>etapa · progresso · linha do tempo</small></div></article></div>
+          <div class="status-flow"><span>PENDENTE</span><i>→</i><span>EM ANÁLISE</span><i>→</i><span>EM EXECUÇÃO</span><i>→</i><span>RESOLVIDO</span></div><div class="status-note">Cancelado também é estado disponível. O modelo registra mudanças, sem impor uma matriz rígida de transições.</div>
+        </section>
+
+        <section class="board-card uml-card" aria-labelledby="uml-title">
+          <div class="card-heading"><span class="card-index">03</span><div><span class="card-kicker">UML · NÚCLEO DO DOMÍNIO</span><h2 id="uml-title">Entidades e relações</h2></div><span class="card-mark">MODELO</span></div>
+          <div class="uml-diagram" role="img" aria-label="User referencia UserRole. Complaint contém Location, eventos de histórico e caminhos de anexos, e usa enums para classificação, status e prioridade.">
+            <svg viewBox="0 0 700 290" preserveAspectRatio="none" aria-hidden="true"><path d="M174 66 H500"/><path d="M280 160 H350"/><path d="M465 157 H540"/><path d="M350 201 V240 H160 V222"/><path d="M425 201 V240 H380 V222"/><path d="M455 190 H565 V222"/></svg>
+            <article class="uml-box user-box"><b>User</b><span>id · name · status</span><small>passwordMatches(…)</small></article>
+            <article class="uml-box role-box"><b>UserRole «enum»</b><span>ADMINISTRADOR · ATENDENTE</span><span>CIDADAO · permissões</span></article>
+            <article class="uml-box complaint-box"><b>Complaint</b><span>category · subcategory · priority · status</span><span>description · date · creatorId</span><small>changeStatus · updateDetails · addHistoryNote</small></article>
+            <article class="uml-box location-box"><b>Location</b><span>latitude · longitude</span><span>address</span></article>
+            <article class="uml-box history-box"><b>ComplaintHistoryEntry</b><span>changedAt · previous/newStatus</span><span>responsible · note</span></article>
+            <article class="uml-box status-box"><b>ComplaintStatus «enum»</b><span>Pendente · Em análise · Em execução</span><span>Resolvido · Cancelado</span></article>
+            <article class="uml-box classification-box"><b>Classificação «enum»</b><span>Category · Subcategory · Priority</span><small>subcategoria vinculada à categoria</small></article>
+            <span class="uml-label label-role">papel</span><span class="uml-label label-location">1 localização</span><span class="uml-label label-history">0..* histórico</span><span class="uml-label label-status">status</span><span class="uml-label label-classification">classificação</span>
+          </div>
+          <div class="uml-rules"><span>✓ subcategoria validada</span><span>✓ histórico exposto somente para leitura</span><span>✓ até 4 imagens no formulário</span></div>
+        </section>
+
+        <section class="board-card access-card" aria-labelledby="access-title">
+          <div class="card-heading"><span class="card-index green-index">04</span><div><span class="card-kicker">ACESSO POR PERFIL</span><h2 id="access-title">Permissões</h2></div></div>
+          <table class="access-table"><thead><tr><th>AÇÃO</th><th>ADM</th><th>ATE</th><th>CID</th></tr></thead><tbody><tr><td>Criar reclamação</td><td>✓</td><td>—</td><td>✓</td></tr><tr><td>Consultar lista</td><td>✓</td><td>✓</td><td>Próprias</td></tr><tr><td>Alterar status / fila</td><td>✓</td><td>✓</td><td>—</td></tr><tr><td>Ver mapa</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Análises e IA</td><td>✓</td><td>—</td><td>—</td></tr><tr><td>Exportar CSV</td><td>✓</td><td>✓</td><td>—</td></tr></tbody></table>
+          <div class="keyboard-shortcuts"><span>ATALHOS</span><b>Alt+1</b> Início <b>Alt+3</b> Reclamações <b>Alt+4</b> Mapa <b>Alt+5</b> Acompanhamento <b>Alt+7</b> Análises (admin)</div>
+        </section>
+
+        <section class="board-card screens-card" aria-labelledby="screens-title">
+          <div class="card-heading"><span class="card-index">05</span><div><span class="card-kicker">TELAS DO SISTEMA</span><h2 id="screens-title">Interface em uso</h2></div></div>
+          <div class="screen-tabs" role="tablist" aria-label="Selecionar tela do sistema"><button class="screen-tab is-active" role="tab" aria-selected="true" data-screen="mapa">Mapa</button><button class="screen-tab" role="tab" aria-selected="false" data-screen="acompanhamento">Acompanhamento</button><button class="screen-tab" role="tab" aria-selected="false" data-screen="analisesIA">Análises</button><button class="screen-tab" role="tab" aria-selected="false" data-screen="inicial">Início</button><button class="screen-tab" role="tab" aria-selected="false" data-screen="login">Login</button></div>
+          <a class="screen-preview" id="screen-open" href="img/mapa.png" target="_blank" rel="noopener"><img id="active-screen" src="img/mapa.png" alt="Mapa principal do Cidade em Dia" /><span id="screen-caption">Mapa · marcadores e filtros</span><i>↗</i></a>
+        </section>
+
+        <section class="board-card map-card" aria-labelledby="map-title">
+          <div class="card-heading"><span class="card-index green-index">06</span><div><span class="card-kicker">INTEGRAÇÃO HÍBRIDA</span><h2 id="map-title">Java conversa com o mapa</h2></div></div>
+          <div class="map-pipeline"><div class="map-component"><span>JAVA</span><b>MapController</b><small>filtros · seleção · marcadores</small></div><i>⇄</i><div class="map-component bridge-component"><span>PONTE</span><b>MapBridge</b><small>callbacks JavaScript → Java</small></div><i>⇄</i><div class="map-component web-component"><span>WEBVIEW</span><b>map.html + Leaflet</b><small>OpenStreetMap · eventos do mapa</small></div></div>
+          <div class="map-service-line"><b>GeocodingService</b> · Nominatim · <code>CompletableFuture</code> · retorno à UI com <code>Platform.runLater</code></div>
+        </section>
+
+        <section class="board-card quality-card" aria-labelledby="quality-title">
+          <div class="card-heading"><span class="card-index">07</span><div><span class="card-kicker">TECNOLOGIA · QUALIDADE · ESCOPO</span><h2 id="quality-title">Base para avaliação</h2></div><span class="test-count">35 TESTES*</span></div>
+          <div class="stack-list"><span>Java 21</span><span>JavaFX 21.0.10</span><span>FXML + CSS</span><span>Leaflet 1.9.4</span><span>org.json</span><span>Maven</span><span>JUnit 5.10.2</span><span>Surefire 3.2.5</span></div>
+          <div class="quality-bottom"><p><b>Testes:</b> modelos, sessão, permissões, reclamações, filtros, clustering e analytics. A suíte não abre janelas nem depende de serviços externos.</p><p><b>Limites do protótipo:</b> usuários fixos de demonstração; dados em memória; mapa e geocodificação precisam de internet.</p></div>
+          <div class="version-warning">*README descreve 35 testes e Java 17. O <code>pom.xml</code> atual configura alvo Java 21 e JavaFX 21.0.10.</div>
+        </section>
+
+        <div class="board-stamp"><span>CED</span><small>FAITEC 2.0<br />SYSTEM MAP · 2026</small></div>
+      </div>
+
+      <div class="canvas-hud" aria-label="Controles do quadro">
+        <a class="hud-home" href="index.html" title="Voltar para a apresentação">CED <span>↗</span></a>
+        <div class="hud-zoom"><button type="button" id="zoom-out" aria-label="Diminuir zoom">−</button><span id="zoom-label">100%</span><button type="button" id="zoom-in" aria-label="Aumentar zoom">+</button><button type="button" id="fit-board" aria-label="Enquadrar quadro">⌖</button></div>
+        <button class="hud-fullscreen" type="button" id="fullscreen-button" aria-label="Alternar tela cheia">⛶</button>
+        <div class="hud-help" id="hud-help">Arraste o quadro para navegar. Use o scroll ou os controles para ajustar o zoom.</div>
+      </div>
+      <div class="canvas-toast" id="canvas-toast" role="status" aria-live="polite"></div>
+    </main>
+    <script src="tech.js"></script>
+  </body>
+</html>
